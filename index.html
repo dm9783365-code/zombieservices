@@ -1,333 +1,487 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZOMBIE CHEATS</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Stripe.js library for front-end integration -->
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0c0d12;
-            color: #e2e8f0;
-        }
+// Product data - this includes all products and their pricing for accounts, pickaxes, and OG accounts.
+const products = [
+    // Full Access Skinned Accounts
+    {
+        id: 'sweaty-acc',
+        name: 'Sweaty Acc',
+        description: 'A sweaty account with various skin counts.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [
+            { duration: 'Base', price: 43.99 },
+            { duration: '100+ Skins', price: 49.99 },
+            { duration: '200+ Skins', price: 61.99 },
+            { duration: 'Ultra Final', price: 63.99 },
+            { duration: 'Insanity', price: 79.99 }
+        ]
+    },
+    {
+        id: 'superhero-fncs',
+        name: 'Superhero + FNCS Axe',
+        description: 'A full access account with a superhero skin and the FNCS axe.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 43.99 }]
+    },
+    {
+        id: 'catwomen',
+        name: 'Catwomen',
+        description: 'A full access account with the Catwomen skin.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 42.99 }]
+    },
+    {
+        id: 'surf-witch',
+        name: 'Surf Witch',
+        description: 'A full access account with the Surf Witch skin.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 39.99 }]
+    },
+    {
+        id: 'kor',
+        name: 'Kor',
+        description: 'A full access account with the Kor skin.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 42.99 }]
+    },
+    {
+        id: 'chani',
+        name: 'Chani',
+        description: 'A full access account with the Chani skin.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 43.99 }]
+    },
+    {
+        id: 'lara-croft',
+        name: 'Lara Croft',
+        description: 'A full access account with the Lara Croft skin.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 41.99 }]
+    },
+    {
+        id: 'lyric',
+        name: 'Lyric',
+        description: 'A full access account with the Lyric skin.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 45.99 }]
+    },
+    {
+        id: 'glow',
+        name: 'Glow',
+        description: 'A full access account with the Glow skin.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 46.99 }]
+    },
+    {
+        id: 'caper',
+        name: 'Caper',
+        description: 'A full access account with the Caper skin.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 40.99 }]
+    },
+    {
+        id: '100-plus-skins',
+        name: '100+ skins',
+        description: 'A full access account with over 100 skins.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 44.99 }]
+    },
+    {
+        id: '200-plus-skins',
+        name: '200+ skins',
+        description: 'A full access account with over 200 skins.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 54.99 }]
+    },
+    {
+        id: '300-plus-skins',
+        name: '300+ skins',
+        description: 'A full access account with over 300 skins.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 70.99 }]
+    },
+    {
+        id: '10-plus-skins',
+        name: '10+ skins',
+        description: 'A full access account with over 10 skins.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 5.00 }]
+    },
+    {
+        id: '20-plus-skins',
+        name: '20+ skins',
+        description: 'A full access account with over 20 skins.',
+        category: 'Full Access Skinned Accounts',
+        pricing: [{ duration: 'One time', price: 12.00 }]
+    },
+    // Full Access Pickaxes
+    {
+        id: 'merry-mint-axe',
+        name: 'Merry Mint Axe',
+        description: 'A full access account with the Merry Mint Axe.',
+        category: 'Full Access Pickaxes',
+        pricing: [{ duration: 'One time', price: 59.99 }]
+    },
+    {
+        id: 'leviathan-axe',
+        name: 'Leviathan Axe',
+        description: 'A full access account with the Leviathan Axe.',
+        category: 'Full Access Pickaxes',
+        pricing: [{ duration: 'One time', price: 53.99 }]
+    },
+    {
+        id: 'fncs-axe',
+        name: 'FNCS Axe',
+        description: 'A full access account with the FNCS Axe.',
+        category: 'Full Access Pickaxes',
+        pricing: [{ duration: 'One time', price: 33.99 }]
+    },
+    {
+        id: 'cold-snap',
+        name: 'Cold Snap',
+        description: 'A full access account with the Cold Snap pickaxe.',
+        category: 'Full Access Pickaxes',
+        pricing: [{ duration: 'One time', price: 33.99 }]
+    },
+    {
+        id: 'ice-breaker',
+        name: 'Ice Breaker',
+        description: 'A full access account with the Ice Breaker pickaxe.',
+        category: 'Full Access Pickaxes',
+        pricing: [{ duration: 'One time', price: 38.99 }]
+    },
+    {
+        id: 'candy-axe',
+        name: 'Candy Axe',
+        description: 'A full access account with the Candy Axe.',
+        category: 'Full Access Pickaxes',
+        pricing: [{ duration: 'One time', price: 33.99 }]
+    },
+    // OG Accounts
+    {
+        id: 'og-account-black-knight',
+        name: 'Fortnite Account OG with Black Knight',
+        description: 'A full access OG account with the iconic Black Knight skin.',
+        category: 'OG Accounts',
+        pricing: [{ duration: 'One time', price: 114.99 }]
+    },
+    {
+        id: 'og-account-royale-knight',
+        name: 'Fortnite Account with Royale Knight',
+        description: 'An OG account featuring the Royale Knight skin.',
+        category: 'OG Accounts',
+        pricing: [{ duration: 'One time', price: 42.99 }]
+    },
+    {
+        id: 'og-account-blue-squire',
+        name: 'Fortnite Account OG with Blue Squire',
+        description: 'An OG account featuring the Blue Squire skin.',
+        category: 'OG Accounts',
+        pricing: [{ duration: 'One time', price: 41.99 }]
+    },
+    {
+        id: 'og-account-the-reaper',
+        name: 'Fortnite Account OG with The Reaper',
+        description: 'An OG account with the classic The Reaper skin.',
+        category: 'OG Accounts',
+        pricing: [{ duration: 'One time', price: 42.99 }]
+    },
+    {
+        id: 'og-account-floss',
+        name: 'Fortnite Account OG with Floss Emote',
+        description: 'An OG account with the Floss emote.',
+        category: 'OG Accounts',
+        pricing: [{ duration: 'One time', price: 64.99 }]
+    },
+    {
+        id: 'og-account-take-the-l',
+        name: 'Fortnite Account OG with Take The L Emote',
+        description: 'An OG account with the Take The L emote.',
+        category: 'OG Accounts',
+        pricing: [{ duration: 'One time', price: 38.99 }]
+    }
+];
 
-        .hero-section {
-            background-color: #1a202c; /* A solid dark gray for a clean look */
-        }
+// Global state for cart and modals
+const cart = [];
+let currentProduct = null;
+const state = {
+    email: '',
+    referralCode: ''
+};
 
-        .btn-primary {
-            background: linear-gradient(to right, #3b82f6, #6b46c1);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-        }
+// DOM elements
+const dynamicContent = document.getElementById('dynamic-content');
+const cartCountSpan = document.getElementById('cart-count');
+const cartModal = document.getElementById('cart-modal-overlay');
+const cartItemsContainer = document.getElementById('cart-items-container');
+const cartTotalSpan = document.getElementById('cart-total');
+const productDetailModal = document.getElementById('product-detail-modal-overlay');
+const productDetailContent = document.getElementById('product-detail-modal-content');
+const paymentsDownModal = document.getElementById('payments-down-modal-overlay');
+const checkoutFlowModal = document.getElementById('checkout-flow-modal-overlay');
+const checkoutFlowContent = document.getElementById('checkout-flow-modal-content');
+const paymentSuccessModal = document.getElementById('payment-success-modal-overlay');
 
-        .product-card {
-            background: #1a202c;
-            border: 1px solid #2d3748;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        .product-card h3 {
-            color: #63b3ed;
-        }
-        .product-card ul li {
-            color: #cbd5e0;
-        }
-        .product-card .add-to-cart {
-            background: #4299e1;
-            transition: background-color 0.2s;
-        }
-        .product-card .add-to-cart:hover {
-            background-color: #3182ce;
-        }
+// Functions to show/hide modals
+function showModal(modal) {
+    modal.classList.remove('hidden');
+}
 
-        .cart-modal-overlay, .product-detail-modal-overlay, .checkout-modal-overlay {
-            background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-        }
+function hideModal(modal) {
+    modal.classList.add('hidden');
+}
 
-        .modal-content {
-            background-color: #1a202c;
-            border: 1px solid #2d3748;
-        }
+// This function will render a section for a specific category
+function renderCategorySection(categoryName, categoryProducts) {
+    const sectionContainer = document.createElement('div');
+    // Create a kebab-case ID for linking
+    const sectionId = `section-${categoryName.toLowerCase().replace(/\s/g, '-')}`;
+    sectionContainer.id = sectionId;
+    sectionContainer.className = "mb-16 col-span-full";
+    
+    sectionContainer.innerHTML = `
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-white mb-4">${categoryName}</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Explore our range of ${categoryName.toLowerCase()}.</p>
+        </div>
+        <div id="product-grid-${sectionId}" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-12 justify-center">
+            <!-- Products will be dynamically added here -->
+        </div>
+    `;
+    const productGrid = sectionContainer.querySelector(`#product-grid-${sectionId}`);
+    
+    categoryProducts.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card p-6 rounded-2xl shadow-lg flex flex-col items-center text-center';
 
-        .modal-content h3 {
-            color: #63b3ed;
-        }
+        let buttonHtml;
+        let priceDisplay;
+
+        const lowestPrice = product.pricing.sort((a, b) => a.price - b.price)[0].price;
+        priceDisplay = `FROM $${lowestPrice.toFixed(2)}`;
+        buttonHtml = `<button class="add-to-cart btn-gradient text-white font-bold py-2 px-6 rounded-full w-full">View Product</button>`;
         
-        /* Custom scrollbar for modals */
-        .modal-content-scroll::-webkit-scrollbar {
-            width: 8px;
-        }
+        productCard.innerHTML = `
+            <h3 class="text-2xl font-bold mb-2">${product.name}</h3>
+            <p class="text-gray-400 mb-4">${product.description}</p>
+            <div class="flex items-center justify-center my-4">
+                <p class="text-xl font-extrabold text-white">${priceDisplay}</p>
+            </div>
+            ${buttonHtml}
+        `;
 
-        .modal-content-scroll::-webkit-scrollbar-track {
-            background: #2d3748;
-            border-radius: 10px;
-        }
+        productCard.querySelector('.add-to-cart').addEventListener('click', () => {
+            showProductDetail(product);
+        });
+        productGrid.appendChild(productCard);
+    });
+    dynamicContent.appendChild(sectionContainer);
+}
 
-        .modal-content-scroll::-webkit-scrollbar-thumb {
-            background: #63b3ed;
-            border-radius: 10px;
-        }
+// Render all products dynamically by category
+function renderAllProducts() {
+    dynamicContent.innerHTML = ''; // Clear loading message
 
-        .product-detail-pricing-card {
-            background-color: #2d3748;
-            border: 1px solid #4a5568;
+    // Get unique categories and their products
+    const categories = {};
+    products.forEach(p => {
+        if (!categories[p.category]) {
+            categories[p.category] = [];
         }
+        categories[p.category].push(p);
+    });
+
+    // Render a section for each category
+    for (const category in categories) {
+        renderCategorySection(category, categories[category]);
+    }
+}
+
+// Show product detail modal with multiple pricing options
+function showProductDetail(product) {
+    currentProduct = product;
+    productDetailContent.innerHTML = `
+        <div class="text-center mb-6">
+            <h3 class="text-4xl font-bold mb-2">${product.name}</h3>
+            <p class="text-gray-400">${product.description}</p>
+        </div>
+        <span id="close-product-detail-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl cursor-pointer">&times;</span>
+        <div class="mb-6">
+            <h4 class="text-2xl font-bold text-white mb-4">Pricing</h4>
+            <div class="space-y-4">
+                ${product.pricing.map((option, index) => `
+                    <div class="product-detail-pricing-card flex justify-between items-center">
+                        <div>
+                            <p class="text-lg font-semibold text-white">${option.duration}:</p>
+                            <p class="text-xl font-bold text-d946ef">$${option.price.toFixed(2)}</p>
+                        </div>
+                        <button class="add-to-cart-option btn-gradient text-white font-bold py-2 px-6 rounded-full" data-index="${index}">Add to Cart</button>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    productDetailContent.querySelectorAll('.add-to-cart-option').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const index = e.target.getAttribute('data-index');
+            const selectedOption = product.pricing[index];
+            addToCart(product, selectedOption);
+            hideModal(productDetailModal);
+        });
+    });
+    document.getElementById('close-product-detail-modal').addEventListener('click', () => {
+        hideModal(productDetailModal);
+    });
+    showModal(productDetailModal);
+}
+
+// Add to cart function
+function addToCart(product, pricingOption) {
+    cart.push({ product: product, pricingOption: pricingOption });
+    updateCart();
+}
+
+// Update cart UI and count
+function updateCart() {
+    cartCountSpan.textContent = cart.length;
+    cartItemsContainer.innerHTML = '';
+    let total = 0;
+
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="text-center text-gray-400">Your cart is empty.</p>';
+    } else {
+        cart.forEach((item, index) => {
+            const price = item.pricingOption.price;
+            total += price;
+            const cartItem = document.createElement('div');
+            cartItem.className = 'flex justify-between items-center bg-[#2d0046] p-4 rounded-lg';
+            cartItem.innerHTML = `
+                <div>
+                    <p class="text-white font-semibold">${item.product.name} - ${item.pricingOption.duration}</p>
+                    <p class="text-sm text-gray-400">$${price.toFixed(2)}</p>
+                </div>
+                <button class="remove-from-cart text-red-400 hover:text-red-600 font-bold" data-index="${index}">&times;REMOVE</button>
+            `;
+            cartItemsContainer.appendChild(cartItem);
+        });
+    }
+
+    cartTotalSpan.textContent = total.toFixed(2);
+    // Add event listeners for removal
+    document.querySelectorAll('.remove-from-cart').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const index = e.target.getAttribute('data-index');
+            cart.splice(index, 1);
+            updateCart();
+        });
+    });
+}
+
+// --- Checkout Flow Functions ---
+function showCheckoutStep1() {
+    const subtotal = cart.reduce((acc, item) => acc + item.pricingOption.price, 0);
+    checkoutFlowContent.innerHTML = `
+        <h3 class="text-3xl font-bold text-white mb-6">Complete your order</h3>
+        <span id="close-checkout-flow-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl cursor-pointer">&times;</span>
+
+        <!-- Delivery Email -->
+        <div class="mb-6">
+            <h4 class="text-xl font-bold text-white mb-2">Delivery Email</h4>
+            <input type="email" id="delivery-email" placeholder="Enter your email address" class="w-full p-3 rounded-lg bg-[#2d0046] border border-[#4c0071] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500" value="${state.email}">
+            <p class="text-xs text-gray-400 mt-1">* Enter the email address where you want your product to be sent. You will receive the invoice in your email.</p>
+        </div>
         
-        .product-detail-pricing-card button {
-            background: linear-gradient(to right, #4299e1, #5a67d8);
-        }
-
-        .review-card {
-            background-color: #1a202c;
-            border: 1px solid #2d3748;
-        }
-
-        /* FAQ Section styling */
-        .faq-item {
-            background-color: #1a202c;
-            border: 1px solid #2d3748;
-            transition: background-color 0.2s;
-        }
-        .faq-item:hover {
-            background-color: #1f2937;
-        }
-        .faq-item summary {
-            cursor: pointer;
-            padding: 1rem 1.5rem;
-            font-weight: 600;
-            color: #63b3ed;
-            outline: none;
-            user-select: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .faq-item summary::-webkit-details-marker {
-            display: none;
-        }
-        .faq-item summary::after {
-            content: '+';
-            font-size: 1.5rem;
-            transition: transform 0.2s;
-        }
-        .faq-item[open] summary::after {
-            content: '-';
-            transform: rotate(180deg);
-        }
-        .faq-item-content {
-            padding: 0 1.5rem 1.5rem 1.5rem;
-            color: #cbd5e0;
-        }
-        
-    </style>
-</head>
-<body>
-
-    <!-- Header -->
-    <header class="bg-gray-900 py-4 shadow-lg sticky top-0 z-50 border-b border-gray-700">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <a href="#" class="text-4xl font-bold text-white">
-                Z
-            </a>
-            <nav class="hidden md:flex space-x-6 items-center">
-                <a href="#hero" class="text-gray-300 hover:text-white transition-colors duration-200">Home</a>
-                <a href="#about-section" class="text-gray-300 hover:text-white transition-colors duration-200">About Us</a>
-                <a href="#products-section" class="text-gray-300 hover:text-white transition-colors duration-200">Products</a>
-                <a href="#reviews" class="text-gray-300 hover:text-white transition-colors duration-200">Reviews</a>
-                <a href="#faq-section" class="text-gray-300 hover:text-white transition-colors duration-200">FAQ</a>
-                <a href="https://discord.gg/2fB9rGsfTu" target="_blank" class="text-gray-300 hover:text-white transition-colors duration-200">Discord</a>
-                <button id="cart-button" class="btn-primary text-white font-bold py-2 px-6 rounded-full shadow-md hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">Cart (<span id="cart-count">0</span>)</button>
-            </nav>
-            <a href="#" class="md:hidden text-white text-2xl">
-                <!-- Mobile menu button, could use an icon here -->
-                &#9776;
-            </a>
+        <!-- Referral Code -->
+        <div class="mb-6">
+            <h4 class="text-xl font-bold text-white mb-2">Referral Code</h4>
+            <input type="text" id="referral-code" placeholder="Enter the referral code" class="w-full p-3 rounded-lg bg-[#2d0046] border border-[#4c0071] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500" value="${state.referralCode}">
+            <p class="text-xs text-gray-400 mt-1">Referred by someone? Type their referral code in here.</p>
         </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section text-center py-24 md:py-32">
-        <div class="container mx-auto px-4 hero-content">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4">
-                Dominate the Competition with Our Premium Cheats
-            </h1>
-            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-                Gain the unfair advantage you've been looking for with our undetectable and powerful tools for Fortnite, Rainbow Six Siege, and more.
-            </p>
-            <a href="#products-section" class="btn-primary inline-block text-white font-bold py-3 px-8 rounded-full shadow-md hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">
-                Explore Our Products
-            </a>
-        </div>
-    </section>
-
-    <!-- About Us Section -->
-    <section id="about-section" class="py-20 md:py-28 bg-[#0c0d12]">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl font-bold text-white mb-4">About Us</h2>
-            <p class="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
-                Welcome to ZOMBIE CHEATS, where we're dedicated to helping you achieve unparalleled success in your favorite games. Our journey began with a simple goal: to provide reliable, secure, and powerful cheats that give our community a real edge. We are a team of passionate developers and gamers who understand the need for performance and discretion.
-            </p>
-            <p class="text-lg text-gray-400 max-w-3xl mx-auto">
-                Every product we offer is meticulously tested and constantly updated to ensure it remains undetectable by the latest anti-cheat technologies. We believe in transparency and user satisfaction, which is why our support is always just a Discord message away. Join us and experience the difference that dedication and expertise can make.
-            </p>
-        </div>
-    </section>
-
-    <!-- Main Content Section -->
-    <main id="main-content" class="py-20 md:py-28 bg-[#0c0d12]">
-        <div class="container mx-auto px-4">
-            <div id="products-section" class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">Our Top Selling Products</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    Discover all of our software and find the perfect one for you.
-                </p>
+        <!-- Order Summary -->
+        <div class="mb-8">
+            <h4 class="text-xl font-bold text-white mb-4">Order Summary</h4>
+            ${cart.map(item => `
+                <div class="flex justify-between items-center mb-2 text-gray-300">
+                    <span>${item.product.name} (${item.pricingOption.duration})</span>
+                    <span>$${item.pricingOption.price.toFixed(2)}</span>
+                </div>
+            `).join('')}
+            <div class="flex justify-between items-center text-gray-300">
+                <span>Subtotal</span>
+                <span>$${subtotal.toFixed(2)}</span>
             </div>
-
-            <!-- This div will be populated dynamically by JavaScript -->
-            <div id="dynamic-content" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 justify-center">
+            <div class="flex justify-between items-center text-gray-300">
+                <span>Payment method fee</span>
+                <span>$0.00</span>
+            </div>
+            <div class="flex justify-between items-center font-bold text-white text-xl mt-4">
+                <span>Total</span>
+                <span>$${subtotal.toFixed(2)}</span>
             </div>
         </div>
-    </main>
 
-    <!-- Reviews Section -->
-    <section id="reviews" class="py-20 md:py-28 bg-[#0c0d12]">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-white mb-4">What Our Users Say</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    Hear from our satisfied customers about their experience with our products and support.
-                </p>
+        <!-- Choose Payment Method -->
+        <div class="space-y-4">
+            <h4 class="text-xl font-bold text-white mb-4">Choose Payment Method</h4>
+            <div id="payment-method-debit" class="payment-method-card rounded-lg p-4 flex items-center space-x-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                <p class="text-lg font-semibold text-white">Debit/Credit Card</p>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Custom Review 1 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"been using for 4 hours already champ in r6 best cheat out there untouched by the anti cheat w cheats this is very easy to use and the owner and helpers are the best"</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">R6_Champ</p>
-                            <p class="text-sm text-gray-500">R6 Cheat User</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Custom Review 2 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"got the fortnite private and omg its very good easy setup and helpful they were nice fast to give me a key i been playing for 1 week and not touched by easy anti cheat w zombie services and got unreal 86 in 1 day"</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">UnrealPlayer86</p>
-                            <p class="text-sm text-gray-500">Fortnite Private User</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 1 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"The support team is incredible. I had a minor issue with the setup and they helped me get everything running within minutes. Top-tier service!"</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">!mozy</p>
-                            <p class="text-sm text-gray-500">Satisfied Customer</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 2 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"this the best there support is the best love it"</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">pinkbunnyjay</p>
-                            <p class="text-sm text-gray-500">Fortnite Cheat User</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 3 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"Been cheating for 30 mins on this one account got diamond 3 already. zombie super ud super good"</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">TSUNANO</p>
-                            <p class="text-sm text-gray-500">Fortnite Cheat User</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 4 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"Used for a day and loved it, I'll be buying again."</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">bestierez</p>
-                            <p class="text-sm text-gray-500">Spoofer User</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 5 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"The fortnite ultimate cheat is on another level. I've been dominating every lobby I enter. A must-have for anyone serious about winning!"</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">Alejito</p>
-                            <p class="text-sm text-gray-500">Fortnite Ultimate User</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 6 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"He isnt wrong 😂. The cheats are fantastic, stable, and completely undetectable. Best experience I've had so far."</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">Vedant | NO DMS</p>
-                            <p class="text-sm text-gray-500">Cheat User</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 7 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"The permanent spoofer got me un-HWID banned and back into the game. Works like a charm and it's a huge relief!"</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">broken heart club</p>
-                            <p class="text-sm text-gray-500">Spoofer User</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 8 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"Absolutely loving the new website design and the simplicity of ordering. The Fortnite Private cheat is as good as ever, and the new updates are great."</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p class="text-lg font-semibold text-white">nudy</p>
-                            <p class="text-sm text-gray-500">Long-time Customer</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Review 9 -->
-                <div class="review-card p-6 rounded-2xl shadow-lg">
-                    <p class="text-gray-300 text-lg mb-4">"The team behind the scenes is great. Got a question answered instantly and was able to get my cheat running smoothly. Highly recommended!"</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl mr-3">👤</span>
-                        <div>
-                            <p
+            <div id="payment-method-google" class="payment-method-card rounded-lg p-4 flex items-center space-x-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                <p class="text-lg font-semibold text-white">Google Pay</p>
+            </div>
+            <div id="payment-method-apple" class="payment-method-card rounded-lg p-4 flex items-center space-x-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                <p class="text-lg font-semibold text-white">Apple Pay</p>
+            </div>
+        </div>
+    `;
+    
+    // Re-attach event listeners for dynamic content
+    document.getElementById('close-checkout-flow-modal').addEventListener('click', () => {
+        hideModal(checkoutFlowModal);
+    });
+    document.getElementById('delivery-email').addEventListener('input', (e) => {
+        state.email = e.target.value;
+    });
+    document.getElementById('referral-code').addEventListener('input', (e) => {
+        state.referralCode = e.target.value;
+    });
+    
+    const paymentMethods = document.querySelectorAll('.payment-method-card');
+    paymentMethods.forEach(card => {
+        card.addEventListener('click', () => {
+            hideModal(checkoutFlowModal);
+            showModal(paymentsDownModal);
+        });
+    });
+
+    showModal(checkoutFlowModal);
+}
+
+// Event listeners
+document.getElementById('cart-button').addEventListener('click', () => {
+    showModal(cartModal);
+});
+
+document.getElementById('close-cart-modal').addEventListener('click', () => {
+    hideModal(cartModal);
+});
+
+document.getElementById('checkout-button').addEventListener('click', () => {
+    if (cart.length === 0) return;
+    hideModal(cartModal);
+    showCheckoutStep1();
+});
+
+document.getElementById('close-payments-down-modal').addEventListener('click', () => {
+    hideModal(paymentsDownModal);
+});
+
+document.getElementById('ok-success-button').addEventListener('click', () => {
+    hideModal(paymentSuccessModal);
+});
+
+// Initial render
+window.onload = renderAllProducts;
